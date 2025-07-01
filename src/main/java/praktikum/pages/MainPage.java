@@ -63,15 +63,15 @@ public class MainPage {
                     "/h2[text()='Начинки']");
 
 
-    @Step("Ожидание загрузки страницы")
-    public MainPage waitPage() {
+    @Step("Ожидание загрузки главной страницы")
+    public MainPage waitMainPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOfElementLocated(ENTER_ACCOUNT_BUTTON));
         return this;
     }
 //Проверить как работает с предыдущим методом
     @Step("Ожидание загрузки страницы (авторизованный пользователь)")
-    public MainPage waitForLoadingPageAuthUser() {
+    public MainPage waitMainPageAfterAuth() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOfElementLocated(CREATE_ORDER_BUTTON));
         return this;
@@ -87,8 +87,8 @@ public class MainPage {
         driver.findElement(ENTER_ACCOUNT_BUTTON).click();
     }
 
-    @Step("Запись в Local Storage токенов аутентификации")
-    public MainPage setTokensToLocalStorage(String refreshToken, String accessToken) {
+    @Step("Сохранение токенов в Local Storage")
+    public MainPage saveTokensToLocalStorage(String refreshToken, String accessToken) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String setRefreshToken = "window.localStorage.setItem('refreshToken', '" + refreshToken + "');";
         String setAccessToken = "window.localStorage.setItem('accessToken', '" + accessToken + "');";
@@ -97,8 +97,8 @@ public class MainPage {
         return this;
     }
 
-    @Step("Получение из Local Storage токена аутентификации")
-    public String getAccessTokenFromLocalStorage() {
+    @Step("Получение токенов из Local Storage")
+    public String getTokenFromLocalStorage() {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String getToken = "return window.localStorage.getItem('accessToken');";
         return (String) jsExecutor.executeScript(getToken);

@@ -34,7 +34,7 @@ public class AccountPage {
 
 
     @Step("Ожидание загрузки страницы")
-    public AccountPage waitForLoadingPage() {
+    public AccountPage waitLoadingPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON));
         return this;

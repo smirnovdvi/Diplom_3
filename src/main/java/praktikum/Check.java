@@ -7,8 +7,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 
 public class Check {
-    @Step("Код ответа: 200 OK")
-    public void code201andSuccess(ValidatableResponse response) {
+    @Step("Успешный запрос")
+    public void successRequest(ValidatableResponse response) {
         response.assertThat().statusCode(200)
                 .body("success", equalTo(true));
     }
@@ -23,14 +23,14 @@ public class Check {
         return response.extract().path("refreshToken");
     }
 
-    @Step("Код ответа: 202 ACCEPTED")
-    public void code202andSuccess(ValidatableResponse response) {
+    @Step("Запрос принят")
+    public void RequestSuccess(ValidatableResponse response) {
         response.assertThat().statusCode(202)
                 .body("success", equalTo(true));
     }
 
-    @Step("Текст ответа: пользователь успешно удалён")
-    public void userRemovedMessage(ValidatableResponse response) {
+    @Step("Подтверждение удаления пользователя")
+    public void userRemoved(ValidatableResponse response) {
         response.body("message", equalTo("User successfully removed"));
     }
 

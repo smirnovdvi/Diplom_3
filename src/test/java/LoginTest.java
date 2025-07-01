@@ -5,55 +5,56 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
+import praktikum.Check;
 import praktikum.DriverRule;
+import praktikum.Request;
+import praktikum.User;
 import praktikum.pages.LoginPage;
 import praktikum.pages.MainPage;
 
-@DisplayName("Вход пользователя на странице авторизации")
+@DisplayName("Авторизация пользователя")
 public class LoginTest {
 
-    private static final CreateUserJsonGenerator USER_JSON = new CreateUserJsonGenerator();
-    private static final UserRests USER_REST = new UserRests();
-    private static final Check CHECK = new Check();
+    private static User user;
+    private static final Request request = new Request();
+    private static final Check check = new Check();
 
-    private static CreateUserRequestJson newUser;
+//    private static CreateUserRequestJson newUser;
     private static String accessToken;
 
     @ClassRule
     public static DriverRule driverRule = new DriverRule();
 
     @Before
-    @Step("Создание пользователя через API и открытие страницы логина")
+    @Step("Создание пользователя и открытие страницы авторизации")
     public void createUserAndOpenLoginPage() {
-        newUser = USER_JSON.random();  // генерация json рандомного пользователя
-        ValidatableResponse createUserResponse = USER_REST.create(newUser);  // создание пользователя
-        CHECK.code201andSuccess(createUserResponse);
-        accessToken = CHECK.extractAccessToken(createUserResponse);  // сохранение токена авторизации на случай,
-        // если логин через браузер не сработает
+        user = User.random();
+        ValidatableResponse createUserResponse = request.create(user);
+        check.successRequest(createUserResponse);
+        accessToken = check.extractAccessToken(createUserResponse);
         new LoginPage(driverRule.getDriver())
                 .openPage()
-                .waitForLoadingPage();
+                .waitLoadingPage();
     }
 
     @After
-    @Step("Удаление пользователя через API")
+    @Step("Удаление пользователя")
     public void deleteUser() {
-        ValidatableResponse creationResponse = USER_REST.delete(accessToken);
-        CHECK.code202andSuccess(creationResponse);
-        CHECK.userRemovedMessage(creationResponse);
+        ValidatableResponse creationResponse = request.delete(accessToken);
+        check.RequestSuccess(creationResponse);
+        check.userRemoved(creationResponse);
         accessToken = null;
     }
 
     @Test
-    @DisplayName("[+] Логин пользователя")
-    public void loginUserTest() {
+    @DisplayName("Авторизация пользователя")
+    public void loginUser() {
         new LoginPage(driverRule.getDriver())
-                .inputEmail(newUser.getEmail())
-                .inputPassword(newUser.getPassword())
+                .inputEmail(user.getEmail())
+                .inputPassword(user.getPassword())
                 .clickEnterButton();
         accessToken = new MainPage(driverRule.getDriver())  // перезапись токена, сохранённого при создании юзера
-                .waitForLoadingPageAuthUser()
-                .getAccessTokenFromLocalStorage();
-        System.out.println("\nAccess token from local storage:\n" + accessToken + "\n");
+                .waitMainPageAfterAuth()
+                .getTokenFromLocalStorage();
     }
 }

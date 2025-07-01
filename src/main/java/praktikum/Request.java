@@ -21,7 +21,7 @@ public class Request {
     }
 
     @Step("Отправка запроса на удаление пользователя")
-    public ValidatableResponse delete(String token) {
+    public static ValidatableResponse delete(String token) {
         return given().log().all()
                 .contentType(ContentType.JSON)
                 .baseUri(BASE_URL)
@@ -32,7 +32,7 @@ public class Request {
     }
 
     @Step("Авторизация пользователя")
-    public ValidatableResponse login(Credentials creds) {
+    public static ValidatableResponse login(Credentials creds) {
         return given().log().all()
                 .contentType(ContentType.JSON)
                 .baseUri(BASE_URL)

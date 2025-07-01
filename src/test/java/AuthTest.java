@@ -12,7 +12,6 @@ import praktikum.User;
 import praktikum.pages.AccountPage;
 import praktikum.pages.LoginPage;
 import praktikum.pages.MainPage;
-import praktikum.pages.RegistrationPage;
 
 
 @DisplayName("Переходы по страницам")
@@ -28,68 +27,68 @@ public class AuthTest {
     public static DriverRule driverRule = new DriverRule();
 
     @Before
-    @Step("Создание пользователя через API, логин и авторизация")
-    public void createUserAndOpenLoginPage() {
-        user = User.random();  // генерация json рандомного пользователя
-        ValidatableResponse createUser = respon.create(user);  // создание пользователя через API,
-        check.code201andSuccess(createUser);                  // чтобы не создавать через страницу регистрации
+    @Step("Создание пользователя и авторизация")
+    public void createUserAndAuth() {
+        user = User.random();
+        ValidatableResponse createUser = respon.create(user);
+        check.successRequest(createUser);
         refreshToken = check.extractRefreshToken(createUser);
         accessToken = check.extractAccessToken(createUser);
 
         new MainPage(driverRule.getDriver())
-                .openPage()            // сначала открытие страницы без параметров, т.к. в Local Storage
-                .waitPage()  // нельзя записывать, пока открыта страница data:,
-                .setTokensToLocalStorage(refreshToken, accessToken)
+                .openPage()
+                .waitMainPage()
+                .saveTokensToLocalStorage(refreshToken, accessToken)
                 .refresh()
-                .waitForLoadingPageAuthUser();
+                .waitMainPageAfterAuth();
     }
 
     @After
-    @Step("Удаление пользователя через API")
+    @Step("Удаление пользователя")
     public void deleteUser() {
         ValidatableResponse creationResponse = respon.delete(accessToken);
-        check.code202andSuccess(creationResponse);
-        check.userRemovedMessage(creationResponse);
+        check.RequestSuccess(creationResponse);
+        check.userRemoved(creationResponse);
         accessToken = null;
         refreshToken = null;
     }
 
     @Test
     @DisplayName("Переход в личный кабинет")
-    public void toProfileFromMainPage() {
+    public void toAccountPage() {
         new MainPage(driverRule.getDriver())
                 .clickAccountButton();
-        new RegistrationPage(driverRule.getDriver())
-                .waitForLoadingPage();
+        new AccountPage(driverRule.getDriver())
+                .waitLoadingPage();
     }
 
     @Test
-    @DisplayName("Переход на главную страницу по кнопке 'Конструктор'")
-    public void toMainPageFromProfileViaConstructorButton() {
-        toProfileFromMainPage();
+    @DisplayName("Переход из личного кабинета на главную страницу по кнопке 'Конструктор'")
+    public void toMainPage() {
+        toAccountPage();
         new AccountPage(driverRule.getDriver())
                 .clickConstructorButton();
         new MainPage(driverRule.getDriver())
-                .waitForLoadingPageAuthUser();
+                .waitMainPageAfterAuth();
     }
 
     @Test
-    @DisplayName("Выход по кнопке 'Выход'")
-    public void logoutViaLogoutButton() {
-        toProfileFromMainPage();
+    @DisplayName("Выход из личного кабинета по кнопке 'Выход'")
+    public void logoutAfterLogoutButton() {
+        toAccountPage();
         new AccountPage(driverRule.getDriver())
                 .clickLogoutLink();
         new LoginPage(driverRule.getDriver())
-                .waitForLoadingPage();
+                .waitLoadingPage();
     }
     @Test
-    @DisplayName("Переход на главную страницу по клику на логотип")
-    public void toMainPageFromProfileViaLogo() {
-        toProfileFromMainPage();
+    @DisplayName("Выход на главную страницу по нажатию на логотип")
+    public void toMainPageAfterClickLogo() {
+        toAccountPage();;
         new AccountPage(driverRule.getDriver())
                 .clickLogo();
         new MainPage(driverRule.getDriver())
-                .waitForLoadingPageAuthUser();
+                .waitMainPageAfterAuth();
     }
 
 

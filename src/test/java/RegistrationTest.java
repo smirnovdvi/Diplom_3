@@ -5,86 +5,75 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
 import praktikum.*;
 import praktikum.pages.LoginPage;
 import praktikum.pages.MainPage;
 import praktikum.pages.RegistrationPage;
 
-@RunWith(Enclosed.class)
+@DisplayName("Регистрация пользователя")
 public class RegistrationTest {
-    /**
-     * Проверь:
-     * Успешную регистрацию.
-     * Ошибку для некорректного пароля. Минимальный пароль — шесть символов.
-     */
 
+    private User user;
+
+
+    //private static final Request request = new Request();
+    private static final Check check = new Check();
+    //private static final Credentials creds = new Credentials();
+    @ClassRule
+    public static DriverRule driverRule = new DriverRule();
+
+    @Before
+    @Step("Создание и регистрация пользователя")
+    public void openPageAndNavigate() {
+        user = User.random();
+        new MainPage(driverRule.getDriver())
+                .openPage()
+                .waitMainPage()
+                .clickEnterAccountButton();
+        new LoginPage(driverRule.getDriver())
+                .waitLoadingPage()
+                .clickRegisterLink();
+    }
+
+    @After
+    @Step("Удаление пользователя")
+    public void deleteUser() {
+        String accessToken;
+        var newLogin = Credentials.fromUser(user);
+        ValidatableResponse loginUserResponse = Request.login(newLogin);
+        accessToken = check.extractAccessToken(loginUserResponse);
+
+        if (accessToken != null) {
+            ValidatableResponse creationResponse = Request.delete(accessToken);
+            check.RequestSuccess(creationResponse);
+            check.userRemoved(creationResponse);
+        }
+    }
+
+    @Test
     @DisplayName("Регистрация пользователя")
-    public static class RegistrationTests {
+    public void registration() {
+        var creds = Credentials.fromUser(user);
+        new RegistrationPage(driverRule.getDriver())
+                .waitForLoadingPage()
+                .inputName(creds.getName())
+                .inputEmail(creds.getEmail())
+                .inputPassword(creds.getPassword())
+                .clickRegisterButton();
+        new LoginPage(driverRule.getDriver())
+                .waitLoadingPage();
+    }
 
-        private User user;
-
-
-        private static final Request respond = new Request();
-        private static final Check check = new Check();
-        //private static final Credentials creds = new Credentials();
-
-
-        @ClassRule
-        public static DriverRule driverRule = new DriverRule();
-
-        @Before
-        @Step("Генерация пользовательских данных, открытие главной страницы и открытие страницы логина")
-        public void openPageAndNavigate() {
-            user = User.random();
-            new MainPage(driverRule.getDriver())
-                    .openPage()
-                    .waitPage()
-                    .clickEnterAccountButton();
-            new LoginPage(driverRule.getDriver())
-                    .waitForLoadingPage()
-                    .clickRegisterLink();
-        }
-
-        @After
-        @Step("Удаление пользователя через API")
-        public void deleteUserIfCreated() {
-            String accessToken;
-            var newLogin = Credentials.fromUser(user);
-            ValidatableResponse loginUserResponse = respond.login(newLogin);
-            accessToken = check.extractAccessToken(loginUserResponse);
-
-            if (accessToken != null) {
-                ValidatableResponse creationResponse = respond.delete(accessToken);
-                check.code202andSuccess(creationResponse);
-                check.userRemovedMessage(creationResponse);
-            }
-        }
-
-        @Test
-        @DisplayName("[+] Регистрация пользователя")
-        public void registrationTest() {
-            new RegistrationPage(driverRule.getDriver())
-                    .waitForLoadingPage()
-                    .inputName(user.getName())
-                    .inputEmail(user.getEmail())
-                    .inputPassword(user.getPassword())
-                    .clickRegisterButton();
-            new LoginPage(driverRule.getDriver())
-                    .waitForLoadingPage();
-        }
-
-        @Test
-        @DisplayName("[–] Регистрация с некорректным паролем. Пароль: 123")
-        public void registrationWrongPasswordTest() {
-            new RegistrationPage(driverRule.getDriver())
-                    .waitForLoadingPage()
-                    .inputName(user.getName())
-                    .inputEmail(user.getEmail())
-                    .inputPassword("123")
-                    .clickRegisterButton()
-                    .checkWrongPasswordWarning();
-        }
+    @Test
+    @DisplayName("Регистрация с некорректным паролем")
+    public void registrationWrongPassword() {
+        var creds = Credentials.fromUser(user);
+        new RegistrationPage(driverRule.getDriver())
+                .waitForLoadingPage()
+                .inputName(creds.getName())
+                .inputEmail(creds.getEmail())
+                .inputPassword("qwe")
+                .clickRegisterButton()
+                .checkWrongPasswordWarning();
     }
 }

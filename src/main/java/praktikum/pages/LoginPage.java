@@ -41,7 +41,7 @@ public class LoginPage {
 
 
     @Step("Ожидание загрузки страницы")
-    public LoginPage waitForLoadingPage() {
+    public LoginPage waitLoadingPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOfElementLocated(RECOVER_PASS_BUTTON));
         return this;
