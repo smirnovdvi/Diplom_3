@@ -55,11 +55,11 @@ public class RegistrationTest {
     public void registration() {
         var creds = Credentials.fromUser(user);
         new RegistrationPage(driverRule.getDriver())
-                .waitForLoadingPage()
+                .waitLoadingPage()
                 .inputName(creds.getName())
                 .inputEmail(creds.getEmail())
                 .inputPassword(creds.getPassword())
-                .clickRegisterButton();
+                .clickRegistrationButton();
         new LoginPage(driverRule.getDriver())
                 .waitLoadingPage();
     }
@@ -69,11 +69,11 @@ public class RegistrationTest {
     public void registrationWrongPassword() {
         var creds = Credentials.fromUser(user);
         new RegistrationPage(driverRule.getDriver())
-                .waitForLoadingPage()
+                .waitLoadingPage()
                 .inputName(creds.getName())
                 .inputEmail(creds.getEmail())
                 .inputPassword("qwe")
-                .clickRegisterButton()
+                .clickRegistrationButton()
                 .checkWrongPasswordWarning();
     }
 }

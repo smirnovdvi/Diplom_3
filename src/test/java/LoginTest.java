@@ -5,10 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-import praktikum.Check;
-import praktikum.DriverRule;
-import praktikum.Request;
-import praktikum.User;
+import praktikum.*;
 import praktikum.pages.LoginPage;
 import praktikum.pages.MainPage;
 
@@ -49,9 +46,10 @@ public class LoginTest {
     @Test
     @DisplayName("Авторизация пользователя")
     public void loginUser() {
+        var creds = Credentials.fromUser(user);
         new LoginPage(driverRule.getDriver())
-                .inputEmail(user.getEmail())
-                .inputPassword(user.getPassword())
+                .inputEmail(creds.getEmail())
+                .inputPassword(creds.getPassword())
                 .clickEnterButton();
         accessToken = new MainPage(driverRule.getDriver())  // перезапись токена, сохранённого при создании юзера
                 .waitMainPageAfterAuth()

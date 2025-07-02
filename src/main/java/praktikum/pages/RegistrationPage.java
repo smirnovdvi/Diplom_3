@@ -16,72 +16,74 @@ public class RegistrationPage {
         this.driver = driver;
     }
 
-    public RegistrationPage openPage() {
+/*    public RegistrationPage openPage() {
         driver.get(EnvConfig.BASE_URL + "/register");
         return this;
-    }
+    }*/
 
 
     // кнопка "Зарегистрироваться"
-    public static final By REGISTER_BUTTON = By.
+    public static final By registrationButton = By.
             xpath(".//button[text()='Зарегистрироваться']");
 
-    // ссылка "Войти"
-    public static final By ENTER_LINK = By.
+/*
+    // кнопка "Войти"
+    public static final By enterButton = By.
             xpath(".//a[contains(@href, '/login')]");
+*/
 
     // поле "Имя"
-    private static final By INPUT_NAME = By.xpath(".//label[text()='Имя']/following-sibling::input");
+    private static final By inputName = By.xpath(".//label[text()='Имя']/following-sibling::input");
 
-    // поле "Email"
-    private static final By INPUT_EMAIL = By.xpath(".//label[text()='Email']/following-sibling::input");
+    // поле ввода "Email"
+    private static final By inputEmail = By.xpath(".//label[text()='Email']/following-sibling::input");
 
-    // поле "Пароль"
-    private static final By INPUT_PASSWORD = By.xpath(".//label[text()='Пароль']/following-sibling::input");
+    // поле ввода "Пароль"
+    private static final By inputPassword = By.xpath(".//label[text()='Пароль']/following-sibling::input");
 
-    // текст "Некорректный пароль"
-    private static final By WRONG_PASSWORD_TEXT = By.xpath(".//p[text()='Некорректный пароль']");
+    // Сообщение "Некорректный пароль"
+    private static final By wrongPassword = By.xpath(".//p[text()='Некорректный пароль']");
 
 
     @Step("Ожидание загрузки страницы")
-    public RegistrationPage waitForLoadingPage() {
+    public RegistrationPage waitLoadingPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfElementLocated(REGISTER_BUTTON));
+                .until(ExpectedConditions.visibilityOfElementLocated(registrationButton));
         return this;
     }
 
     @Step("Ввод имени")
     public RegistrationPage inputName(String name) {
-        driver.findElement(INPUT_NAME).sendKeys(name);
+        driver.findElement(inputName).sendKeys(name);
         return this;
     }
 
     @Step("Ввод email")
     public RegistrationPage inputEmail(String email) {
-        driver.findElement(INPUT_EMAIL).sendKeys(email);
+        driver.findElement(inputEmail).sendKeys(email);
         return this;
     }
 
     @Step("Ввод пароля")
     public RegistrationPage inputPassword(String pass) {
-        driver.findElement(INPUT_PASSWORD).sendKeys(pass);
+        driver.findElement(inputPassword).sendKeys(pass);
         return this;
     }
 
-    @Step("Клик по кнопке 'Зарегистрироваться'")
-    public RegistrationPage clickRegisterButton() {
-        driver.findElement(REGISTER_BUTTON).click();
+    @Step("Нажатие по кнопке 'Зарегистрироваться'")
+    public RegistrationPage clickRegistrationButton() {
+        driver.findElement(registrationButton).click();
         return this;
     }
 
     @Step("Проверка наличия текста 'Некорректный пароль'")
     public void checkWrongPasswordWarning() {
-        driver.findElement(WRONG_PASSWORD_TEXT);
+        driver.findElement(wrongPassword);
     }
 
-    @Step("Клик по ссылке 'Войти'")
+/*    @Step("Клик по ссылке 'Войти'")
     public RegistrationPage clickEnterLink() {
-        driver.findElement(ENTER_LINK).click();
+        driver.findElement(enterButton).click();
         return this;
-    }
+    }*/
 }

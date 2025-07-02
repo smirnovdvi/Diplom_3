@@ -17,41 +17,41 @@ public class AccountPage {
     }
 
     // кнопка "Сохранить"
-    public static final By SAVE_BUTTON = By
+    public static final By saveButton = By
             .xpath(".//button[text()='Сохранить']");
 
     // кнопка "Конструктор"
-    public static final By CONSTRUCTOR_BUTTON = By
-            .xpath(".//p[text()='Конструктор']/ancestor::a[contains(@href, '/')]");
+    public static final By constructorButton = By
+            .xpath(".//p[text()='Конструктор']");
+
+    // кнопка "Выход"
+    public static final By logoutButton = By
+            .xpath(".//button[text()='Выход']");
 
     // логотип
-    public static final By LOGO = By
-            .xpath(".//div[contains(@class,'AppHeader')]/a[contains(@href, '/')]");
-
-    // ссылка "Выход"
-    public static final By LOGOUT_LINK = By
-            .xpath(".//button[text()='Выход']");
+    public static final By logo = By
+            .xpath(".//div[contains(@class,'AppHeader')]");
 
 
     @Step("Ожидание загрузки страницы")
     public AccountPage waitLoadingPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON));
+                .until(ExpectedConditions.visibilityOfElementLocated(saveButton));
         return this;
     }
 
     @Step("Клик по кнопке 'Конструктор'")
     public void clickConstructorButton() {
-        driver.findElement(CONSTRUCTOR_BUTTON).click();
+        driver.findElement(constructorButton).click();
     }
 
     @Step("Клик по логотипу")
     public void clickLogo() {
-        driver.findElement(LOGO).click();
+        driver.findElement(logo).click();
     }
 
     @Step("Клик по кнопке 'Выйти'")
     public void clickLogoutLink() {
-        driver.findElement(LOGOUT_LINK).click();
+        driver.findElement(logoutButton).click();
     }
 }

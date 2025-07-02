@@ -25,66 +25,64 @@ public class MainPage {
     }
 
     // кнопка "Войти в аккаунт"
-    public static final By ENTER_ACCOUNT_BUTTON = By
+    public static final By enterButton = By
             .xpath(".//button[text()='Войти в аккаунт']");
 
-    public static final By CREATE_ORDER_BUTTON = By
+    //кнопка "Оформить заказ"
+    public static final By orderButton = By
             .xpath(".//button[text()='Оформить заказ']");
 
     // кнопка "Личный кабинет"
-    public static final By ACCOUNT_BUTTON = By
-            .xpath(".//a[contains(@href, '/account')]");
+    public static final By accountButton = By
+            .xpath(".//p[text()='Личный Кабинет']");
 
-    // таб "Булки"
-    public static final By TAB_BUNS = By
+    // вкладка "Булки"
+    public static final By buns = By
             .xpath(".//span[text()='Булки']/ancestor::div[contains(@class, 'tab_tab')]");
 
-    // таб "Соусы"
-    public static final By TAB_SAUCES = By
+    // вкладка "Соусы"
+    public static final By sauces = By
             .xpath(".//span[text()='Соусы']/ancestor::div[contains(@class, 'tab_tab')]");
 
-    // таб "Начинки"
-    public static final By TAB_INGREDIENTS = By
+    // вкладка "Начинки"
+    public static final By ingredients = By
             .xpath(".//span[text()='Начинки']/ancestor::div[contains(@class, 'tab_tab')]");
 
-    // текст "Булки" в конструкторе
-    public static final By BUNS_TEXT = By
-            .xpath(".//div[contains(@class, 'BurgerIngredients_ingredients__menuContainer')]" +
-                    "/h2[text()='Булки']");
+    // раздел "Булки" в списке ингредиентов
+    public static final By bunsInList = By
+            .xpath(".//h2[text()='Булки']");
 
-    // текст "Соусы" в конструкторе
-    public static final By SAUCES_TEXT = By
-            .xpath(".//div[contains(@class, 'BurgerIngredients_ingredients__menuContainer')]" +
-                    "/h2[text()='Соусы']");
+    // раздел "Соусы" в списке ингредиентов
+    public static final By saucesInList = By
+            .xpath(".//h2[text()='Соусы']");
 
-    // текст "Начинки" в конструкторе
-    public static final By INGREDIENTS_TEXT = By
-            .xpath(".//div[contains(@class, 'BurgerIngredients_ingredients__menuContainer')]" +
-                    "/h2[text()='Начинки']");
+    // раздел "Начинки" в списке ингредиентов
+    public static final By ingredientsInList = By
+            .xpath(".//h2[text()='Начинки']");
 
 
     @Step("Ожидание загрузки главной страницы")
     public MainPage waitMainPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfElementLocated(ENTER_ACCOUNT_BUTTON));
+                .until(ExpectedConditions.visibilityOfElementLocated(enterButton));
         return this;
     }
-//Проверить как работает с предыдущим методом
-    @Step("Ожидание загрузки страницы (авторизованный пользователь)")
+
+    @Step("Ожидание загрузки страницы после авторизации пользователя")
     public MainPage waitMainPageAfterAuth() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfElementLocated(CREATE_ORDER_BUTTON));
+                .until(ExpectedConditions.visibilityOfElementLocated(orderButton));
         return this;
     }
 
-    @Step("Клик по кнопке 'Личный Кабинет'")
+    @Step("Нажатие по кнопке 'Личный Кабинет'")
     public void clickAccountButton() {
-        driver.findElement(ACCOUNT_BUTTON).click();
+        driver.findElement(accountButton).click();
     }
 
-    @Step("Клик по кнопке 'Войти в аккаунт'")
+    @Step("Нажатие по кнопке 'Войти в аккаунт'")
     public void clickEnterAccountButton() {
-        driver.findElement(ENTER_ACCOUNT_BUTTON).click();
+        driver.findElement(enterButton).click();
     }
 
     @Step("Сохранение токенов в Local Storage")
@@ -110,63 +108,63 @@ public class MainPage {
         return this;
     }
 
-    @Step("Клик по табу 'Булки'")
+    @Step("Нажатие по вкладке 'Булки'")
     public MainPage clickBunsTab() {
-        driver.findElement(TAB_BUNS).click();
+        driver.findElement(buns).click();
         return this;
     }
 
-    @Step("Клик по табу 'Соусы'")
+    @Step("Нажатие по вкладке 'Соусы'")
     public MainPage clickSaucesTab() {
-        driver.findElement(TAB_SAUCES).click();
+        driver.findElement(sauces).click();
         return this;
     }
 
-    @Step("Клик по табу 'Начинки'")
+    @Step("Нажатие по вкладке 'Начинки'")
     public MainPage clickIngredientsTab() {
-        driver.findElement(TAB_INGREDIENTS).click();
+        driver.findElement(ingredients).click();
         return this;
     }
 
-    @Step("Таб 'Булки' активный")
+    @Step("Вкладка 'Булки' активна")
     public MainPage currentTabBuns() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.attributeContains(TAB_BUNS, "class", "current"));
+                .until(ExpectedConditions.attributeContains(buns, "class", "current"));
         return this;
     }
 
-    @Step("Таб 'Соусы' активный")
+    @Step("Вкладка 'Соусы' активна")
     public MainPage currentTabSauces() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.attributeContains(TAB_SAUCES, "class", "current"));
+                .until(ExpectedConditions.attributeContains(sauces, "class", "current"));
         return this;
     }
 
-    @Step("Таб 'Начинки' активный")
+    @Step("Вкладка 'Начинки' активна")
     public MainPage currentTabIngredients() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.attributeContains(TAB_INGREDIENTS, "class", "current"));
+                .until(ExpectedConditions.attributeContains(ingredients, "class", "current"));
         return this;
     }
 
-    @Step("Скролл конструктора до Булок")
+    @Step("Прокрутка списка до Булок")
     public MainPage scrollToBuns() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(driver -> driver.findElement(BUNS_TEXT).getRect().y < 300);
+                .until(driver -> driver.findElement(bunsInList).getRect().y < 300);
         return this;
     }
 
-    @Step("Скролл конструктора до Соусов")
+    @Step("Прокрутка списка до Соусов")
     public MainPage scrollToSauces() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(driver -> driver.findElement(SAUCES_TEXT).getRect().y < 300);
+                .until(driver -> driver.findElement(saucesInList).getRect().y < 300);
         return this;
     }
 
-    @Step("Скролл конструктора до Начинок")
+    @Step("Прокрутка списка до Начинок")
     public MainPage scrollToIngredients() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(driver -> driver.findElement(INGREDIENTS_TEXT).getRect().y < 300);
+                .until(driver -> driver.findElement(ingredientsInList).getRect().y < 300);
         return this;
     }
 }

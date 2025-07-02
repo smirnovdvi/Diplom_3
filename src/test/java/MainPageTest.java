@@ -20,6 +20,9 @@ public class MainPageTest {
                 .scrollToSauces()
                 .clickIngredientsTab()
                 .currentTabIngredients()
-                .scrollToIngredients();
+                .scrollToIngredients()
+                .clickBunsTab()
+                .currentTabBuns()
+                .scrollToBuns();
     }
 }

@@ -20,52 +20,52 @@ public class LoginPage {
         driver.get(EnvConfig.BASE_URL + "/login");
         return this;
     }
+    // кнопка "Войти"
+    public static final By loginButton = By.
+            xpath(".//button[text()='Войти']");
 
-    // поле "Email"
-    private final By INPUT_EMAIL = By.xpath(".//label[text()='Email']/following-sibling::input");
+    // поле для ввода "Email"
+    private final By inputEmail = By.xpath(".//label[text()='Email']/following-sibling::input");
 
-    // поле "Пароль"
-    private final By INPUT_PASSWORD = By.xpath(".//label[text()='Пароль']/following-sibling::input");
+    // поле для ввода "Пароль"
+    private final By inputPassword = By.xpath(".//label[text()='Пароль']/following-sibling::input");
 
-    // кнопка "Зарегистрироваться"
-    public static final By REGISTER_BUTTON = By.
-            xpath(".//a[contains(@href, '/register')]");
+    // ссылка "Зарегистрироваться"
+    public static final By registrationButton = By.
+            xpath(".//a[text()='Зарегистрироваться']");
 
     // ссылка "Восстановить пароль"
-    public static final By RECOVER_PASS_BUTTON = By.
-            xpath(".//a[contains(@href, '/forgot-password')]");
+    public static final By recoverPassButton = By.
+            xpath(".//a[text()='Восстановить пароль']");
 
-    // кнопка "Войти"
-    public static final By ENTER_BUTTON = By.
-            xpath(".//button[text()='Войти']");
 
 
     @Step("Ожидание загрузки страницы")
     public LoginPage waitLoadingPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfElementLocated(RECOVER_PASS_BUTTON));
+                .until(ExpectedConditions.visibilityOfElementLocated(recoverPassButton));
         return this;
     }
 
     @Step("Клик по кнопке 'Зарегистрироваться'")
     public void clickRegisterLink() {
-        driver.findElement(REGISTER_BUTTON).click();
+        driver.findElement(registrationButton).click();
     }
 
     @Step("Ввод email")
     public LoginPage inputEmail(String email) {
-        driver.findElement(INPUT_EMAIL).sendKeys(email);
+        driver.findElement(inputEmail).sendKeys(email);
         return this;
     }
 
     @Step("Ввод пароля")
     public LoginPage inputPassword(String pass) {
-        driver.findElement(INPUT_PASSWORD).sendKeys(pass);
+        driver.findElement(inputPassword).sendKeys(pass);
         return this;
     }
 
     @Step("Клик по кнопке 'Войти'")
     public void clickEnterButton() {
-        driver.findElement(ENTER_BUTTON).click();
+        driver.findElement(loginButton).click();
     }
 }
