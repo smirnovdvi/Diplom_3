@@ -83,7 +83,7 @@ public class AuthTest {
     @Test
     @DisplayName("Выход на главную страницу по нажатию на логотип")
     public void toMainPageAfterClickLogo() {
-        toAccountPage();;
+        toAccountPage();
         new AccountPage(driverRule.getDriver())
                 .clickLogo();
         new MainPage(driverRule.getDriver())
