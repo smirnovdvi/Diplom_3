@@ -16,8 +16,7 @@ import praktikum.pages.MainPage;
 
 @DisplayName("Переходы по страницам")
 public class AuthTest {
-    private static User user;
-    private static final Request respon = new Request();
+    private static final Request request = new Request();
     private static final Check check = new Check();
 
     public static String accessToken;
@@ -29,8 +28,8 @@ public class AuthTest {
     @Before
     @Step("Создание пользователя и авторизация")
     public void createUserAndAuth() {
-        user = User.random();
-        ValidatableResponse createUser = respon.create(user);
+        User user = User.random();
+        ValidatableResponse createUser = request.create(user);
         check.successRequest(createUser);
         refreshToken = check.extractRefreshToken(createUser);
         accessToken = check.extractAccessToken(createUser);
@@ -46,7 +45,7 @@ public class AuthTest {
     @After
     @Step("Удаление пользователя")
     public void deleteUser() {
-        ValidatableResponse creationResponse = respon.delete(accessToken);
+        ValidatableResponse creationResponse = Request.delete(accessToken);
         check.RequestSuccess(creationResponse);
         check.userRemoved(creationResponse);
         accessToken = null;

@@ -11,7 +11,7 @@ public class MainPageTest {
 
     @Test
     @DisplayName("Проверка нажатия вкладок 'Булки', 'Соусы', 'Начинки'")
-    public void tabClicksBunsSaucesIngredientsTest() {
+    public void checkTabs() {
         new MainPage(driverRule.getDriver())
                 .openPage()
                 .waitMainPage()

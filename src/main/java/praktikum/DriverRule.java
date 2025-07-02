@@ -1,11 +1,13 @@
 package praktikum;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.Getter;
 import org.junit.rules.ExternalResource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+@Getter
 public class DriverRule extends ExternalResource {
     private WebDriver driver;
 
@@ -41,7 +43,4 @@ public class DriverRule extends ExternalResource {
         driver = new ChromeDriver();
     }
 
-    public WebDriver getDriver() {
-        return driver;
-    }
 }

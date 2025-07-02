@@ -20,6 +20,7 @@ public class LoginPage {
         driver.get(EnvConfig.BASE_URL + "/login");
         return this;
     }
+
     // кнопка "Войти"
     public static final By loginButton = By.
             xpath(".//button[text()='Войти']");
@@ -47,8 +48,8 @@ public class LoginPage {
         return this;
     }
 
-    @Step("Клик по кнопке 'Зарегистрироваться'")
-    public void clickRegisterLink() {
+    @Step("Нажатие по кнопке 'Зарегистрироваться'")
+    public void clickRegistration() {
         driver.findElement(registrationButton).click();
     }
 
@@ -64,7 +65,7 @@ public class LoginPage {
         return this;
     }
 
-    @Step("Клик по кнопке 'Войти'")
+    @Step("Нажатие по кнопке 'Войти'")
     public void clickEnterButton() {
         driver.findElement(loginButton).click();
     }

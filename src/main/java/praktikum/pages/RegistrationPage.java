@@ -16,23 +16,11 @@ public class RegistrationPage {
         this.driver = driver;
     }
 
-/*    public RegistrationPage openPage() {
-        driver.get(EnvConfig.BASE_URL + "/register");
-        return this;
-    }*/
-
-
     // кнопка "Зарегистрироваться"
     public static final By registrationButton = By.
             xpath(".//button[text()='Зарегистрироваться']");
 
-/*
-    // кнопка "Войти"
-    public static final By enterButton = By.
-            xpath(".//a[contains(@href, '/login')]");
-*/
-
-    // поле "Имя"
+    // поле ввода "Имя"
     private static final By inputName = By.xpath(".//label[text()='Имя']/following-sibling::input");
 
     // поле ввода "Email"
@@ -76,14 +64,8 @@ public class RegistrationPage {
         return this;
     }
 
-    @Step("Проверка наличия текста 'Некорректный пароль'")
-    public void checkWrongPasswordWarning() {
+    @Step("Проверка наличия ошибки 'Некорректный пароль'")
+    public void checkWrongPassword() {
         driver.findElement(wrongPassword);
     }
-
-/*    @Step("Клик по ссылке 'Войти'")
-    public RegistrationPage clickEnterLink() {
-        driver.findElement(enterButton).click();
-        return this;
-    }*/
 }

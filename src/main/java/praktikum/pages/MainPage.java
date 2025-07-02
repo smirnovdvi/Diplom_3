@@ -148,10 +148,9 @@ public class MainPage {
     }
 
     @Step("Прокрутка списка до Булок")
-    public MainPage scrollToBuns() {
+    public void scrollToBuns() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
                 .until(driver -> driver.findElement(bunsInList).getRect().y < 300);
-        return this;
     }
 
     @Step("Прокрутка списка до Соусов")

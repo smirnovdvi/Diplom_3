@@ -14,11 +14,7 @@ import praktikum.pages.RegistrationPage;
 public class RegistrationTest {
 
     private User user;
-
-
-    //private static final Request request = new Request();
     private static final Check check = new Check();
-    //private static final Credentials creds = new Credentials();
     @ClassRule
     public static DriverRule driverRule = new DriverRule();
 
@@ -32,7 +28,7 @@ public class RegistrationTest {
                 .clickEnterAccountButton();
         new LoginPage(driverRule.getDriver())
                 .waitLoadingPage()
-                .clickRegisterLink();
+                .clickRegistration();
     }
 
     @After
@@ -74,6 +70,6 @@ public class RegistrationTest {
                 .inputEmail(creds.getEmail())
                 .inputPassword("qwe")
                 .clickRegistrationButton()
-                .checkWrongPasswordWarning();
+                .checkWrongPassword();
     }
 }

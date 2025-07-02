@@ -34,23 +34,22 @@ public class AccountPage {
 
 
     @Step("Ожидание загрузки страницы")
-    public AccountPage waitLoadingPage() {
+    public void waitLoadingPage() {
         new WebDriverWait(driver, Duration.ofSeconds(EnvConfig.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOfElementLocated(saveButton));
-        return this;
     }
 
-    @Step("Клик по кнопке 'Конструктор'")
+    @Step("Нажатие по кнопке 'Конструктор'")
     public void clickConstructorButton() {
         driver.findElement(constructorButton).click();
     }
 
-    @Step("Клик по логотипу")
+    @Step("Нажатие по логотипу")
     public void clickLogo() {
         driver.findElement(logo).click();
     }
 
-    @Step("Клик по кнопке 'Выйти'")
+    @Step("Нажатиепо кнопке 'Выйти'")
     public void clickLogoutLink() {
         driver.findElement(logoutButton).click();
     }

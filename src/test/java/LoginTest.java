@@ -37,7 +37,7 @@ public class LoginTest {
     @After
     @Step("Удаление пользователя")
     public void deleteUser() {
-        ValidatableResponse creationResponse = request.delete(accessToken);
+        ValidatableResponse creationResponse = Request.delete(accessToken);
         check.RequestSuccess(creationResponse);
         check.userRemoved(creationResponse);
         accessToken = null;
